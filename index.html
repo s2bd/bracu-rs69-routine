@@ -34,7 +34,7 @@
       "2.10PM-3.30PM"
     ];
 
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday"];
+    const days = ["Sunday", "👔 Monday 🍴", "Tuesday", "Wednesday"];
 
     function parseEntry(entry) {
       if (!entry) return null;
@@ -94,38 +94,79 @@
 
 
     function generateRoutine() {
-      const section = document.getElementById("sectionInput").value.trim();
-      if (!section) return;
-      const routine = findRoutine(section);
+  const section = document.getElementById("sectionInput").value.trim();
+  if (!section) return;
+  const routine = findRoutine(section);
 
-      const table = document.createElement("table");
-      table.className = "min-w-full bg-white shadow-md rounded-lg overflow-hidden animate-fade-in";
+  const table = document.createElement("table");
+  table.className = "min-w-full bg-white shadow-md rounded-lg overflow-hidden animate-fade-in";
 
-      const thead = document.createElement("thead");
-      thead.innerHTML = `
-        <tr class="bg-blue-600 text-white">
-          <th class="p-3 text-left">Time Slot</th>
-          ${days.map(day => `<th class="p-3 text-left">${day}</th>`).join("")}
-        </tr>
-      `;
-      table.appendChild(thead);
-      
-      const tbody = document.createElement("tbody");
-      slots.forEach((slot, i) => {
-        const row = document.createElement("tr");
-        row.className = i % 2 === 0 ? "bg-gray-100" : "bg-white";
-        row.innerHTML = `
-          <td class="p-3 font-medium text-gray-700">${slot}</td>
-          ${days.map(day => `<td class="p-3 align-top">${formatCell(routine[day]?.[i])}</td>`).join("")}
-        `;
-        tbody.appendChild(row);
-      });
-      table.appendChild(tbody);
+  const thead = document.createElement("thead");
+  thead.innerHTML = `
+    <tr class="bg-blue-600 text-white">
+      <th class="p-3 text-left">Time Slot</th>
+      ${days.map(day => `<th class="p-3 text-left">${day}</th>`).join("")}
+    </tr>
+  `;
+  table.appendChild(thead);
 
-      const container = document.getElementById("routineTable");
-      container.innerHTML = "";
-      container.appendChild(table);
-    }
+  const tbody = document.createElement("tbody");
+
+  // Helper to create static rows (e.g. meals)
+  const createStaticRow = (time, label) => {
+    const row = document.createElement("tr");
+    row.className = "bg-yellow-100";
+    row.innerHTML = `
+      <td class="p-3 font-medium text-gray-700">${time}</td>
+      ${days.map(() => `<td class="p-3 font-semibold text-gray-600">${label}</td>`).join("")}
+    `;
+    return row;
+  };
+
+  // Add Breakfast
+  tbody.appendChild(createStaticRow("7:30AM-8:45AM", "Breakfast"));
+
+  // Slot 1
+  tbody.appendChild(createSlotRow(0, routine));
+
+  // Morning Snacks
+  tbody.appendChild(createStaticRow("10:20AM-11:00AM", "Morning Snacks"));
+
+  // Slot 2
+  tbody.appendChild(createSlotRow(1, routine));
+
+  // Lunch
+  tbody.appendChild(createStaticRow("12:00PM-2:30PM", "Lunch"));
+
+  // Slot 3
+  tbody.appendChild(createSlotRow(2, routine));
+
+  // Evening Snacks
+  tbody.appendChild(createStaticRow("3:30PM-4:30PM", "Evening Snacks"));
+
+  // Slot 4
+  tbody.appendChild(createSlotRow(3, routine));
+
+  // Dinner
+  tbody.appendChild(createStaticRow("7:30PM-9:30PM", "Dinner"));
+
+  table.appendChild(tbody);
+
+  const container = document.getElementById("routineTable");
+  container.innerHTML = "";
+  container.appendChild(table);
+
+  function createSlotRow(index, routineData) {
+    const row = document.createElement("tr");
+    row.className = index % 2 === 0 ? "bg-gray-100" : "bg-white";
+    row.innerHTML = `
+      <td class="p-3 font-medium text-gray-700">${slots[index]}</td>
+      ${days.map(day => `<td class="p-3 align-top">${formatCell(routineData[day]?.[index])}</td>`).join("")}
+    `;
+    return row;
+  }
+}
+
     window.addEventListener("DOMContentLoaded", loadJSONs);
   </script>
 
