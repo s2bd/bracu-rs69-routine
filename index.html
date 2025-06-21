@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RS69 Routine Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">RS69 Routine Lookup</h1>
+    <div class="flex justify-center mb-4"><!-- Stoobid says Hi -->
+      <input id="sectionInput" type="text" placeholder="Enter section number (e.g. 43)" class="border px-4 py-2 rounded-l-md w-64" />
+      <button onclick="generateRoutine()" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition-all">Search</button>
+    </div>
+
+    <div id="routineTable" class="overflow-x-auto"></div>
+  </div>
+
+  <script>
+    async function loadJSONs() {
+    const [sunResponse, monResponse] = await Promise.all([
+      fetch('RS69_suntues.json'),
+      fetch('RS69_monwed.json')
+    ]);
+
+    suntues = await sunResponse.json();
+    monwed = await monResponse.json();
+  }
+    const slots = [
+      "9.00AM-10.20AM",
+      "10.40AM-12.00PM",
+      "12.40PM-2.00PM",
+      "2.10PM-3.30PM"
+    ];
+
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday"];
+
+    function parseEntry(entry) {
+      if (!entry) return null;
+      const match = entry.match(/RS\s+(\w+)\/(.+?)\s*\((\d+)\)/);
+      if (match) {
+        const [_, section, teacher, room] = match;
+        return { section, teacher, room };
+      } else {
+        const matchSimple = entry.match(/RS\s+(\w+)\/(.+)/);
+        if (matchSimple) {
+          const [_, section, teacher] = matchSimple;
+          return { section, teacher, room: "" };
+        }
+      }
+      return null;
+    }
+
+    function findRoutine(section) {
+      const findInDataset = (dataset, datasetDays) => {
+        const found = {};
+        datasetDays.forEach(day => {
+          found[day] = Array(slots.length).fill("");
+          Object.entries(dataset.schedule).forEach(([course, rooms]) => {
+            Object.entries(rooms).forEach(([room, times]) => {
+              slots.forEach((slot, idx) => {
+                const entry = times[slot];
+                if (entry && entry.includes(`S${section}`)) {
+                  found[day][idx] = { entry: `${entry} (${room})`, course: course };
+                }
+              });
+            });
+          });
+
+        });
+        return found;
+      };
+
+      return {
+        ...findInDataset(suntues, ["Sunday", "Tuesday"]),
+        ...findInDataset(monwed, ["Monday", "Wednesday"])
+      };
+    }
+
+    function formatCell(cell) {
+      if (!cell || !cell.entry) return "-";
+      const parsed = parseEntry(cell.entry);
+      if (!parsed) return "-";
+      return `
+        <div class='text-sm space-y-1'>
+          <div><span class='font-semibold'>Course:</span> ${cell.course}</div>
+          <div><span class='font-semibold'>Section:</span> ${parsed.section}</div>
+          <div><span class='font-semibold'>Teacher:</span> ${parsed.teacher}</div>
+          <div><span class='font-semibold'>Room No:</span> ${parsed.room}</div>
+        </div>
+      `;
+    }
+
+
+    function generateRoutine() {
+      const section = document.getElementById("sectionInput").value.trim();
+      if (!section) return;
+      const routine = findRoutine(section);
+
+      const table = document.createElement("table");
+      table.className = "min-w-full bg-white shadow-md rounded-lg overflow-hidden animate-fade-in";
+
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
+        <tr class="bg-blue-600 text-white">
+          <th class="p-3 text-left">Time Slot</th>
+          ${days.map(day => `<th class="p-3 text-left">${day}</th>`).join("")}
+        </tr>
+      `;
+      table.appendChild(thead);
+      
+      const tbody = document.createElement("tbody");
+      slots.forEach((slot, i) => {
+        const row = document.createElement("tr");
+        row.className = i % 2 === 0 ? "bg-gray-100" : "bg-white";
+        row.innerHTML = `
+          <td class="p-3 font-medium text-gray-700">${slot}</td>
+          ${days.map(day => `<td class="p-3 align-top">${formatCell(routine[day]?.[i])}</td>`).join("")}
+        `;
+        tbody.appendChild(row);
+      });
+      table.appendChild(tbody);
+
+      const container = document.getElementById("routineTable");
+      container.innerHTML = "";
+      container.appendChild(table);
+    }
+    window.addEventListener("DOMContentLoaded", loadJSONs);
+  </script>
+
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.5s ease-out;
+    }
+  </style>
+</body>
+</html>
