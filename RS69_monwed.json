@@ -142,14 +142,14 @@
       },
       "501": {
         "9.00AM-10.20AM": "RS S11/Priyanka Chak",
-        "10.40AM-12.00PM": "RS S23/Priyanka Chak",
+        "10.40AM-12.00PM": "RS S23/Bayazid Islam",
         "12.40PM-2.00PM": "RS S37/Priyanka Chak",
         "2.10PM-3.30PM": "RS S51/Priyanka Chak"
       },
       "502": {
         "9.00AM-10.20AM": "",
         "10.40AM-12.00PM": "RS S25/Shifat Amreen",
-        "12.40PM-2.00PM": "",
+        "12.40PM-2.00PM": "RS S39/Shifat Amreen",
         "2.10PM-3.30PM": "RS S53/Bayazid Islam"
       }
     },
@@ -169,31 +169,31 @@
       "505": {
         "9.00AM-10.20AM": "RS S49/Abu Sadat Nurullah",
         "10.40AM-12.00PM": "RS S35/Dr. Jayashree Sarma",
-        "12.40PM-2.00PM": "RS S09/Dr. Jayashree Sarma",
-        "2.10PM-3.30PM": ""
+        "12.40PM-2.00PM": "RS S21/Abu Sadat Nurullah",
+        "2.10PM-3.30PM": "RS S09/Dr. Jayashree Sarma"
       },
       "506": {
         "9.00AM-10.20AM": "RS S47/Aly Al Srijohn",
-        "10.40AM-12.00PM": "RS S07/Nishat Farzana",
-        "12.40PM-2.00PM": "RS S19/Nishat Farzana",
-        "2.10PM-3.30PM": ""
+        "10.40AM-12.00PM": "RS S33/Nishat Farzana",
+        "12.40PM-2.00PM": "RS S19/Aly Al Srijohn",
+        "2.10PM-3.30PM": "RS S07/Nishat Farzana"
       },
       "507": {
         "9.00AM-10.20AM": "RS S45/Ikhtiarl Arefeen",
         "10.40AM-12.00PM": "RS S31/Istiaque Hossain Molla",
         "12.40PM-2.00PM": "RS S17/Ikhtiarl Arefeen",
-        "2.10PM-3.30PM": "RS S15/Istiaque Hossain Molla"
+        "2.10PM-3.30PM": "RS S05/Istiaque Hossain Molla"
       },
       "508": {
         "9.00AM-10.20AM": "RS S43/Mortaza Mahmud Tohan",
         "10.40AM-12.00PM": "RS S29/Mortaza Mahmud Tohan",
-        "12.40PM-2.00PM": "RS S05/Fatema Mahmuda",
-        "2.10PM-3.30PM": ""
+        "12.40PM-2.00PM": "RS S15/Fatema Mahmuda",
+        "2.10PM-3.30PM": "RS S03/Mortaza Mahmud Tohan"
       },
       "601": {
         "9.00AM-10.20AM": "RS S41/Samin Farhan Asef",
         "10.40AM-12.00PM": "RS S27/Samin Farhan Asef",
-        "12.40PM-2.00PM": "RS S13/Fatema Mahmuda",
+        "12.40PM-2.00PM": "RS S13/Sayed Abu Touab Shakir",
         "2.10PM-3.30PM": "RS S01/Sayed Abu Touab Shakir"
       }
     }
