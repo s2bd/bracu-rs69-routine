@@ -10,14 +10,14 @@
     "BANGLA": {
       "104": {
         "9.00AM-10.20AM": "RS S01/Rejaul Karim Raju",
-        "10.40AM-12.00PM": "RS S01/Rejaul Karim Raju",
+        "10.40AM-12.00PM": "RS S13/Rejaul Karim Raju",
         "12.40PM-2.00PM": "RS S27/Shahanaj Parvin",
         "2.10PM-3.30PM": "RS S41/Rejaul Karim Raju"
       },
       "105": {
         "9.00AM-10.20AM": "RS S03/Dr. Nelima Tabassum",
         "10.40AM-12.00PM": "RS S15/Dr. Ismile Saadi",
-        "12.40PM-2.00PM": "RS S03/Dr. Nelima Tabassum",
+        "12.40PM-2.00PM": "RS S29/Dr. Nelima Tabassum",
         "2.10PM-3.30PM": "RS S43/Dr. Ismile Saadi"
       },
       "201": {
@@ -28,9 +28,9 @@
       },
       "202": {
         "9.00AM-10.20AM": "RS S07/Dr. Mahfuza Hilali",
-        "10.40AM-12.00PM": "RS S29/Previn Akter",
-        "12.40PM-2.00PM": "RS S37/Dr. Mahfuza Hilali",
-        "2.10PM-3.30PM": "RS S47/Previn Akter"
+        "10.40AM-12.00PM": "RS S19/Parvin Akter",
+        "12.40PM-2.00PM": "RS S33/Dr. Mahfuza Hilali",
+        "2.10PM-3.30PM": "RS S47/Parvin Akter"
       },
       "203": {
         "9.00AM-10.20AM": "RS S09/Suraya Khatun",
@@ -47,7 +47,7 @@
       "205": {
         "9.00AM-10.20AM": "",
         "10.40AM-12.00PM": "RS S25/Shahanaj Parvin",
-        "12.40PM-2.00PM": "RS S03/Dr. Nemai Mondal",
+        "12.40PM-2.00PM": "RS S39/Dr. Nemai Mondal",
         "2.10PM-3.30PM": "RS S53/Dr. Nemai Mondal"
       }
     },
@@ -163,26 +163,26 @@
       "504": {
         "9.00AM-10.20AM": "RS S50/Showmik Joy Bhowmik",
         "10.40AM-12.00PM": "RS S36/Nasrin Sultana",
-        "12.40PM-2.00PM": "RS S10/Nasrin Sultana",
-        "2.10PM-3.30PM": "RS S50/Showmik Joy Bhowmik"
+        "12.40PM-2.00PM": "RS S22/Showmik Joy Bhowmik",
+        "2.10PM-3.30PM": "RS S10/Nasrin Sultana"
       },
       "505": {
         "9.00AM-10.20AM": "RS S48/Samia Kalim Syed",
         "10.40AM-12.00PM": "RS S34/Abu Sadat Nurullah",
-        "12.40PM-2.00PM": "RS S08/Abu Sadat Nurullah",
-        "2.10PM-3.30PM": "RS S20/Samia Kalim Syed"
+        "12.40PM-2.00PM": "RS S20/Samia Kalim Syed",
+        "2.10PM-3.30PM": "RS S08/Abu Sadat Nurullah"
       },
       "506": {
         "9.00AM-10.20AM": "RS S46/Nishat Farzana",
         "10.40AM-12.00PM": "RS S32/Dr. Tahseen H. Ali",
-        "12.40PM-2.00PM": "RS S06/Nishat Farzana",
-        "2.10PM-3.30PM": "RS S46/Nishat Farzana"
+        "12.40PM-2.00PM": "RS S18/Nishat Farzana",
+        "2.10PM-3.30PM": "RS S06/Nishat Farzana"
       },
       "507": {
         "9.00AM-10.20AM": "RS S44/Istiaque Hossain Molla",
         "10.40AM-12.00PM": "RS S30/Ikhtiari Arefeen",
-        "12.40PM-2.00PM": "RS S04/Ikhtiari Arefeen",
-        "2.10PM-3.30PM": "RS S44/Istiaque Hossain Molla"
+        "12.40PM-2.00PM": "RS S16/Istiaque Hossain Molla",
+        "2.10PM-3.30PM": "RS S04/Ikhtiari Arefeen"
       },
       "508": {
         "9.00AM-10.20AM": "RS S42/Dr. Sowmit Joydip",
