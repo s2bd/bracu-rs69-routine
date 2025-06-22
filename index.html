@@ -13,27 +13,26 @@
       <input id="sectionInput" type="text" placeholder="Enter 2 digit section number, e.g. 43, 06, 11" class="border px-4 py-2 rounded-l-md w-64" />
       <button onclick="generateRoutine()" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition-all">Search</button>
     </div>
-
-    <div id="routineTable" class="overflow-x-auto"></div>
+    <p id="warning" class="text-red-600 text-center mb-4 hidden">Please enter a valid 2-digit section number (e.g. 43, 06).</p>
+    <div id="routineTable" class="overflow-x-auto space-y-6"></div>
   </div>
 
   <script>
     async function loadJSONs() {
-    const [sunResponse, monResponse] = await Promise.all([
-      fetch('RS69_suntues.json'),
-      fetch('RS69_monwed.json')
-    ]);
+      const [sunResponse, monResponse] = await Promise.all([
+        fetch('RS69_suntues.json'),
+        fetch('RS69_monwed.json')
+      ]);
+      suntues = await sunResponse.json();
+      monwed = await monResponse.json();
+    }
 
-    suntues = await sunResponse.json();
-    monwed = await monResponse.json();
-  }
     const slots = [
       "9.00AM-10.20AM",
       "10.40AM-12.00PM",
       "12.40PM-2.00PM",
       "2.10PM-3.30PM"
     ];
-
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
 
     function parseEntry(entry) {
@@ -67,7 +66,6 @@
               });
             });
           });
-
         });
         return found;
       };
@@ -92,80 +90,122 @@
       `;
     }
 
-
     function generateRoutine() {
-  const section = document.getElementById("sectionInput").value.trim();
-  if (!section) return;
-  const routine = findRoutine(section);
+      const sectionInput = document.getElementById("sectionInput");
+      const warning = document.getElementById("warning");
+      const section = sectionInput.value.trim();
 
-  const table = document.createElement("table");
-  table.className = "min-w-full bg-white shadow-md rounded-lg overflow-hidden animate-fade-in";
+      if (!/^\d{2}$/.test(section)) {
+        warning.classList.remove("hidden");
+        return;
+      } else {
+        warning.classList.add("hidden");
+      }
 
-  const thead = document.createElement("thead");
-  thead.innerHTML = `
-    <tr class="bg-blue-600 text-white">
-      <th class="p-3 text-left">Time Slot</th>
-      ${days.map(day => `<th class="p-3 text-left">${day}</th>`).join("")}
-    </tr>
-  `;
-  table.appendChild(thead);
+      const routine = findRoutine(section);
+      const container = document.getElementById("routineTable");
+      container.innerHTML = "";
 
-  const tbody = document.createElement("tbody");
+      const table = document.createElement("table");
+      table.className = "min-w-full bg-white shadow-md rounded-lg overflow-hidden animate-fade-in";
 
-  // Helper to create static rows (e.g. meals)
-  const createStaticRow = (time, label) => {
-    const row = document.createElement("tr");
-    row.className = "bg-yellow-100";
-    row.innerHTML = `
-      <td class="p-3 font-medium text-gray-700">${time}</td>
-      ${days.map(() => `<td class="p-3 font-semibold text-gray-600">${label}</td>`).join("")}
-    `;
-    return row;
-  };
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
+        <tr class="bg-blue-600 text-white">
+          <th class="p-3 text-left">Time Slot</th>
+          ${days.map(day => {
+            if (day === "Monday") {
+              return `<th class="p-3 text-left bg-blue-100 text-blue-900 font-bold" title="Formal Day">👔 ${day}</th>`;
+            }
+            return `<th class="p-3 text-left">${day}</th>`;
+          }).join("")}
+        </tr>
+      `;
+      table.appendChild(thead);
 
-  // Add Breakfast
-  tbody.appendChild(createStaticRow("7:30AM-8:45AM", "Breakfast"));
+      const tbody = document.createElement("tbody");
 
-  // Slot 1
-  tbody.appendChild(createSlotRow(0, routine));
+      const createStaticRow = (time, label) => {
+        const row = document.createElement("tr");
+        row.className = "bg-yellow-100";
+        row.innerHTML = `
+          <td class="p-3 font-medium text-gray-700">${time}</td>
+          ${days.map(day => {
+            let content = label;
+            if (day === "Monday" && (label === "Lunch" || label === "Dinner")) {
+              content = `<span title="Formal meal">🍴 ${label}</span>`;
+            }
+            return `<td class="p-3 font-semibold text-gray-600">${content}</td>`;
+          }).join("")}
+        `;
+        return row;
+      };
 
-  // Morning Snacks
-  tbody.appendChild(createStaticRow("10:20AM-11:00AM", "Morning Snacks"));
+      const createSlotRow = (index, routineData) => {
+        const row = document.createElement("tr");
+        row.className = index % 2 === 0 ? "bg-gray-100" : "bg-white";
+        row.innerHTML = `
+          <td class="p-3 font-medium text-gray-700">${slots[index]}</td>
+          ${days.map(day => {
+            const content = formatCell(routineData[day]?.[index]);
+            const mondayClass = day === "Monday" ? "bg-blue-50" : "";
+            return `<td class="p-3 align-top ${mondayClass}">${content}</td>`;
+          }).join("")}
+        `;
+        return row;
+      };
 
-  // Slot 2
-  tbody.appendChild(createSlotRow(1, routine));
+      tbody.appendChild(createStaticRow("7:30AM-8:45AM", "Breakfast"));
+      tbody.appendChild(createSlotRow(0, routine));
+      tbody.appendChild(createStaticRow("10:20AM-11:00AM", "Morning Snacks"));
+      tbody.appendChild(createSlotRow(1, routine));
+      tbody.appendChild(createStaticRow("12:00PM-2:30PM", "Lunch"));
+      tbody.appendChild(createSlotRow(2, routine));
+      tbody.appendChild(createSlotRow(3, routine));
+      tbody.appendChild(createStaticRow("3:30PM-4:30PM", "Evening Snacks"));
+      tbody.appendChild(createStaticRow("7:30PM-9:30PM", "Dinner"));
 
-  // Lunch
-  tbody.appendChild(createStaticRow("12:00PM-2:30PM", "Lunch"));
+      table.appendChild(tbody);
+      container.appendChild(table);
 
-  // Slot 3
-  tbody.appendChild(createSlotRow(2, routine));
-      
-  // Slot 4
-  tbody.appendChild(createSlotRow(3, routine));
+      const extraTable = document.createElement("table");
+      extraTable.className = "min-w-full bg-white shadow-md rounded-lg overflow-hidden animate-fade-in";
 
-   // Evening Snacks
-  tbody.appendChild(createStaticRow("3:30PM-4:30PM", "Evening Snacks"));
-   
-  // Dinner
-  tbody.appendChild(createStaticRow("7:30PM-9:30PM", "Dinner"));
+      const extraThead = document.createElement("thead");
+      extraThead.innerHTML = `
+        <tr class="bg-green-600 text-white">
+          <th class="p-3 text-left">Time Slot</th>
+          <th class="p-3 text-left">Friday</th>
+          <th class="p-3 text-left">Saturday</th>
+        </tr>
+      `;
+      extraTable.appendChild(extraThead);
 
-  table.appendChild(tbody);
+      const extraTbody = document.createElement("tbody");
+      const addMealRow = (time, friLabel, satLabel) => {
+        const row = document.createElement("tr");
+        row.className = "bg-yellow-50";
+        row.innerHTML = `
+          <td class="p-3 font-medium text-gray-700">${time}</td>
+          <td class="p-3 text-gray-600 font-semibold">${friLabel}</td>
+          <td class="p-3 text-gray-600 font-semibold">${satLabel}</td>
+        `;
+        extraTbody.appendChild(row);
+      };
 
-  const container = document.getElementById("routineTable");
-  container.innerHTML = "";
-  container.appendChild(table);
+      addMealRow("8:00AM-9:30AM", "Breakfast", "Breakfast");
+      addMealRow("10:20AM-11:00AM", "-", "Morning Snacks");
+      addMealRow("11:00AM-11:40AM", "Morning Snacks", "-");
+      addMealRow("1:00PM-1:30PM", "🕌 Jumu'ah Prayers", "-");
+      addMealRow("2:00PM-3:00PM", "Lunch", "-");
+      addMealRow("12:00PM-2:30PM", "-", "Lunch");
+      addMealRow("4:00PM-5:00PM", "Evening Snacks", "-");
+      addMealRow("3:30PM-4:30PM", "-", "Evening Snacks");
+      addMealRow("7:30PM-9:30PM", "Dinner", "Dinner");
 
-  function createSlotRow(index, routineData) {
-    const row = document.createElement("tr");
-    row.className = index % 2 === 0 ? "bg-gray-100" : "bg-white";
-    row.innerHTML = `
-      <td class="p-3 font-medium text-gray-700">${slots[index]}</td>
-      ${days.map(day => `<td class="p-3 align-top">${formatCell(routineData[day]?.[index])}</td>`).join("")}
-    `;
-    return row;
-  }
-}
+      extraTable.appendChild(extraTbody);
+      container.appendChild(extraTable);
+    }
 
     window.addEventListener("DOMContentLoaded", loadJSONs);
   </script>
