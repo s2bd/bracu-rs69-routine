@@ -10,7 +10,7 @@
   <div class="max-w-5xl mx-auto">
     <h1 class="text-3xl font-bold mb-6 text-center">RS69 Routine Lookup</h1>
     <div class="flex justify-center mb-4"><!-- Stoobid says Hi -->
-      <input id="sectionInput" type="text" placeholder="Enter section number (e.g. 43)" class="border px-4 py-2 rounded-l-md w-64" />
+      <input id="sectionInput" type="text" placeholder="Enter 2 digit section number, e.g. 43, 06, 11" class="border px-4 py-2 rounded-l-md w-64" />
       <button onclick="generateRoutine()" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition-all">Search</button>
     </div>
 
@@ -34,7 +34,7 @@
       "2.10PM-3.30PM"
     ];
 
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday"];
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
 
     function parseEntry(entry) {
       if (!entry) return null;
@@ -140,13 +140,13 @@
 
   // Slot 3
   tbody.appendChild(createSlotRow(2, routine));
-
-  // Evening Snacks
-  tbody.appendChild(createStaticRow("3:30PM-4:30PM", "Evening Snacks"));
-
+      
   // Slot 4
   tbody.appendChild(createSlotRow(3, routine));
 
+   // Evening Snacks
+  tbody.appendChild(createStaticRow("3:30PM-4:30PM", "Evening Snacks"));
+   
   // Dinner
   tbody.appendChild(createStaticRow("7:30PM-9:30PM", "Dinner"));
 
