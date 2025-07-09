@@ -9,7 +9,7 @@
     },
     {
         "SL": 2,
-        "Activity": "Japaness Language Section 1",
+        "Activity": "Japanese Language Section 1",
         "ClassTime": "9:30am-11am",
         "Venue": "OB-602",
         "Instructor": "Md. Mehedi Hasan Santo",
@@ -17,7 +17,7 @@
     },
     {
         "SL": 3,
-        "Activity": "Japaness Language Section 2",
+        "Activity": "Japanese Language Section 2",
         "ClassTime": "9:30am-11am",
         "Venue": "OB-603",
         "Instructor": "Khalid Saifullah",
@@ -25,7 +25,7 @@
     },
     {
         "SL": 4,
-        "Activity": "Guiter playing- Beginner level",
+        "Activity": "Guitar playing- Beginner level",
         "ClassTime": "9:30am-11am",
         "Venue": "OB-604",
         "Instructor": "Afif Ibna Kadir Khan Turjo",
@@ -100,16 +100,16 @@
         "Activity": "Presentation Skills Section 1",
         "ClassTime": "9:30am-10:30am",
         "Venue": "OB-506",
-        "Instructor": "Most Mafruha Akter Lisa",
-        "DormSupervisor": ""
+        "Instructor": "Mr. Mir Ryan",
+        "DormSupervisor": "Most Mafruha Akter Lisa"
     },
     {
         "SL": 14,
         "Activity": "Presentation Skills Section 2",
         "ClassTime": "10:30am-11:30am",
         "Venue": "OB-507",
-        "Instructor": "Mr. Manoj Kumar Halder",
-        "DormSupervisor": ""
+        "Instructor": "Mr. Mir Ryan",
+        "DormSupervisor": "Mr. Manoj Kumar Halder"
     },
     {
         "SL": 15,
@@ -129,10 +129,10 @@
     },
     {
         "SL": 17,
-        "Activity": "Graphics Advanced level",
+        "Activity": "Graphics Design- Advanced level",
         "ClassTime": "9:30am-11am",
         "Venue": "OB-402",
-        "Instructor": "Md.Naim Afzal",
+        "Instructor": "Md. Naim Afzal",
         "DormSupervisor": "Md. Harun Or Rashid"
     },
     {
@@ -153,7 +153,7 @@
     },
     {
         "SL": 20,
-        "Activity": "Drawing and Skecting Beginner level",
+        "Activity": "Drawing and Sketching Beginner level",
         "ClassTime": "9:30am-11am",
         "Venue": "OB-405",
         "Instructor": "Md. Mohimin Al Bhuiyan",
@@ -161,7 +161,7 @@
     },
     {
         "SL": 21,
-        "Activity": "Drawing and Skecting Advance level",
+        "Activity": "Drawing and Sketching Advanced level",
         "ClassTime": "9:30am-11am",
         "Venue": "OB-406",
         "Instructor": "Abrar Ehsan Nihal",
@@ -177,7 +177,7 @@
     },
     {
         "SL": 23,
-        "Activity": "Degital Marketing",
+        "Activity": "Digital Marketing",
         "ClassTime": "9:30am-11am",
         "Venue": "OB-408",
         "Instructor": "Muhtasim Fuad Rafsun",
@@ -227,7 +227,7 @@
         "SL": 29,
         "Activity": "Web Development Advanced Level",
         "ClassTime": "9am-10am",
-        "Venue": "",
+        "Venue": "Computer Lab (OB Ground floor)",
         "Instructor": "Faiaz Khan Soumik",
         "DormSupervisor": "Md. Jashim Uddin Bhuiyan"
     },
@@ -235,7 +235,7 @@
         "SL": 30,
         "Activity": "Animated Film Making - Beginner Level",
         "ClassTime": "10am-11:30am",
-        "Venue": "",
+        "Venue": "Computer Lab (OB Ground floor)",
         "Instructor": "Farjan Shahriar Abeg",
         "DormSupervisor": "Md. Nur Alam Ananto"
     },
@@ -243,17 +243,17 @@
         "SL": 31,
         "Activity": "Web Development Beginner Level section-1",
         "ClassTime": "9:30am-10:30am",
-        "Venue": "",
-        "Instructor": "Ms. Tasnia Afroze",
-        "DormSupervisor": ""
+        "Venue": "OB-103",
+        "Instructor": "Md Danial Islam",
+        "DormSupervisor": "Ms. Tasnia Afroze"
     },
     {
         "SL": 32,
         "Activity": "Web development Beginner Level section-2",
         "ClassTime": "10:30am-11:30am",
-        "Venue": "",
-        "Instructor": "Ms. Tasnia Afroze",
-        "DormSupervisor": ""
+        "Venue": "OB-103",
+        "Instructor": "Md Danial Islam",
+        "DormSupervisor": "Ms. Tasnia Afroze"
     },
     {
         "SL": 33,
@@ -283,7 +283,7 @@
         "SL": 36,
         "Activity": "Yoga & Meditation Female",
         "ClassTime": "9:15am-10:15am",
-        "Venue": "",
+        "Venue": "Markuli hall (Sulla)",
         "Instructor": "Humayara sharmin",
         "DormSupervisor": "Ms. Nasrin Sultana Bristy"
     },
@@ -291,7 +291,7 @@
         "SL": 37,
         "Activity": "Yoga & Meditation Male",
         "ClassTime": "10:30am-11:30am",
-        "Venue": "",
+        "Venue": "Markuli hall (Sulla)",
         "Instructor": "Ashis Adhikary",
         "DormSupervisor": "Md. Belal Hossain"
     }
