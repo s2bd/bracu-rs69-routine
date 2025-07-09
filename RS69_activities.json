@@ -226,7 +226,7 @@
     {
         "SL": 29,
         "Activity": "Web Development Advanced Level",
-        "ClassTime": "9am-10am",
+        "ClassTime": "9:00am-10am",
         "Venue": "Computer Lab",
         "Instructor": "Faiaz Khan Soumik",
         "DormSupervisor": "Md. Jashim Uddin Bhuiyan"
@@ -234,7 +234,7 @@
     {
         "SL": 30,
         "Activity": "Animated Film Making - Beginner Level",
-        "ClassTime": "10am-11:30am",
+        "ClassTime": "10:00am-11:30am",
         "Venue": "Computer Lab",
         "Instructor": "Farjan Shahriar Abeg",
         "DormSupervisor": "Md. Nur Alam Ananto"
