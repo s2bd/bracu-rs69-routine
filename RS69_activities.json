@@ -227,7 +227,7 @@
         "SL": 29,
         "Activity": "Web Development Advanced Level",
         "ClassTime": "9am-10am",
-        "Venue": "Computer Lab (OB Ground floor)",
+        "Venue": "Computer Lab",
         "Instructor": "Faiaz Khan Soumik",
         "DormSupervisor": "Md. Jashim Uddin Bhuiyan"
     },
@@ -235,7 +235,7 @@
         "SL": 30,
         "Activity": "Animated Film Making - Beginner Level",
         "ClassTime": "10am-11:30am",
-        "Venue": "Computer Lab (OB Ground floor)",
+        "Venue": "Computer Lab",
         "Instructor": "Farjan Shahriar Abeg",
         "DormSupervisor": "Md. Nur Alam Ananto"
     },
@@ -257,7 +257,7 @@
     },
     {
         "SL": 33,
-        "Activity": "Competitive Programing",
+        "Activity": "Competitive Programming",
         "ClassTime": "10:10am-11:10am",
         "Venue": "OB-104",
         "Instructor": "Faiaz Khan Soumik",
