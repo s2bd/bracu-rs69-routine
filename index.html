@@ -9,10 +9,17 @@
 <body class="bg-gray-100 min-h-screen p-6">
   <div class="max-w-5xl mx-auto">
     <h1 class="text-3xl font-bold mb-6 text-center">RS69 Routine Lookup</h1>
-    <div class="flex justify-center mb-4"><!-- Stoobid says Hi -->
-      <input id="sectionInput" type="text" placeholder="Enter 2 digit section number, e.g. 43, 06, 11" class="border px-4 py-2 rounded-l-md w-64" />
-      <button onclick="generateRoutine()" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition-all">Search</button>
-    </div>
+    <div class="flex flex-wrap gap-2 justify-center mb-4">
+  <input id="sectionInput" type="text" placeholder="Enter 2 digit section number, e.g. 43, 06, 11"
+    class="border px-4 py-2 rounded-md w-64" />
+  <select id="activitySelect"
+    class="border px-4 py-2 rounded-md w-64 text-gray-700 bg-white focus:outline-none focus:ring">
+    <option value="" disabled selected>Select Activity</option>
+  </select>
+  <button onclick="generateRoutine()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all">Search</button>
+</div>
+
     <p id="warning" class="text-red-600 text-center mb-4 hidden">Please enter a valid 2-digit section number (e.g. 43, 06).</p>
     <div id="routineTable" class="overflow-x-auto space-y-6"></div>
   </div>
@@ -20,12 +27,25 @@
 
   <script>
     async function loadJSONs() {
-      const [sunResponse, monResponse] = await Promise.all([
+      const [sunResponse, monResponse, activitiesResponse] = await Promise.all([
         fetch('RS69_suntues.json'),
-        fetch('RS69_monwed.json')
+        fetch('RS69_monwed.json'),
+        fetch('RS69_activities.json')
       ]);
+      
       suntues = await sunResponse.json();
       monwed = await monResponse.json();
+      activ = await activitiesResponse.json();
+      const activityDropdown = document.getElementById("activitySelect");
+activ
+  .sort((a, b) => a.Activity.localeCompare(b.Activity))
+  .forEach(act => {
+    const opt = document.createElement("option");
+    opt.value = act.SL;
+    opt.textContent = act.Activity;
+    activityDropdown.appendChild(opt);
+  });
+
     }
 
     const slots = [
@@ -174,33 +194,89 @@
       sideBySideWrapper.className = "flex flex-col md:flex-row gap-x-6 w-full";
 
       const createDayTable = (dayName, data) => {
-        const table = document.createElement("table");
-        table.className = "min-w-full bg-white shadow-md rounded-lg overflow-hidden animate-fade-in mb-4 md:mb-0";
+  const table = document.createElement("table");
+  table.className = "min-w-full bg-white shadow-md rounded-lg overflow-hidden animate-fade-in mb-4 md:mb-0";
 
-        const thead = document.createElement("thead");
-        thead.innerHTML = `
-          <tr class="bg-green-600 text-white">
-            <th class="p-3 text-left">Time Slot</th>
-            <th class="p-3 text-left">${dayName}</th>
-          </tr>
-        `;
-        table.appendChild(thead);
+  const thead = document.createElement("thead");
+  thead.innerHTML = `
+    <tr class="bg-green-600 text-white">
+      <th class="p-3 text-left">Time Slot</th>
+      <th class="p-3 text-left">${dayName}</th>
+    </tr>
+  `;
+  table.appendChild(thead);
 
-        const tbody = document.createElement("tbody");
+  const tbody = document.createElement("tbody");
 
-        data.forEach(row => {
-          const tr = document.createElement("tr");
-          tr.className = "bg-yellow-50";
-          tr.innerHTML = `
-            <td class="p-3 font-medium text-gray-700">${row.time}</td>
-            <td class="p-3 text-gray-600 font-semibold">${row.label}</td>
-          `;
-          tbody.appendChild(tr);
-        });
+  data.forEach(row => {
+    const tr = document.createElement("tr");
+    tr.className = "bg-yellow-50";
+    tr.innerHTML = `
+      <td class="p-3 font-medium text-gray-700">${row.time}</td>
+      <td class="p-3 text-gray-600 font-semibold">${row.label}</td>
+    `;
+    tbody.appendChild(tr);
+  });
 
-        table.appendChild(tbody);
-        return table;
-      };
+  if (dayName === "Friday") {
+  const selectedActivityId = parseInt(document.getElementById("activitySelect").value);
+  const selectedActivity = activ.find(a => a.SL === selectedActivityId);
+
+  if (selectedActivity) {
+    const activityStart = selectedActivity.ClassTime.split("-")[0].trim().toLowerCase();
+
+    const parseTime = (timeStr) => {
+      const [time, period] = timeStr.match(/(\d{1,2}:\d{2})(am|pm)/i).slice(1);
+      let [h, m] = time.split(":").map(Number);
+      if (period === "pm" && h !== 12) h += 12;
+      if (period === "am" && h === 12) h = 0;
+      return h * 60 + m;
+    };
+
+    const activityMinutes = parseTime(activityStart);
+
+    // Create activity row
+    const activityRow = document.createElement("tr");
+    activityRow.className = "bg-white";
+    activityRow.innerHTML = `
+      <td class="p-3 font-medium text-gray-700 align-top">${selectedActivity.ClassTime}</td>
+      <td class="p-3 text-gray-700">
+        <div>
+          <span class="font-bold">${selectedActivity.Activity}</span><br/>
+          <span class="text-sm">
+            ${selectedActivity.Venue ? "📍 " + selectedActivity.Venue + "<br/>" : ""}
+            👨‍🏫 ${selectedActivity.Instructor}<br/>
+            <small class="text-gray-500">🧑‍🏫 ${selectedActivity.DormSupervisor}</small>
+          </span>
+        </div>
+      </td>
+    `;
+
+    // Find best position to insert
+    let inserted = false;
+    const rows = Array.from(tbody.children);
+    for (let i = 0; i < rows.length; i++) {
+      const timeCell = rows[i].children[0]?.textContent;
+      if (timeCell && timeCell.match(/\d{1,2}:\d{2}(AM|PM)-\d{1,2}:\d{2}(AM|PM)/i)) {
+        const slotStart = timeCell.split("-")[0].trim().toLowerCase();
+        if (parseTime(slotStart) > activityMinutes) {
+          tbody.insertBefore(activityRow, rows[i]);
+          inserted = true;
+          break;
+        }
+      }
+    }
+
+    // If not inserted (activity is latest), append at end
+    if (!inserted) tbody.appendChild(activityRow);
+  }
+}
+
+
+  table.appendChild(tbody);
+  return table;
+};
+
 
       const fridayData = [
         { time: "8:00AM-9:30AM", label: "Breakfast" },
@@ -237,6 +313,26 @@ sideBySideWrapper.appendChild(saturdayWrapper);
     }
 
     window.addEventListener("DOMContentLoaded", loadJSONs);
+    
+    
+    function closeModal() {
+  document.getElementById("welcomeModal").classList.add("hidden");
+  sessionStorage.setItem("modalSeen", "true");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadJSONs();
+
+  if (!sessionStorage.getItem("modalSeen")) {
+    const modal = document.getElementById("welcomeModal");
+    modal.classList.remove("hidden");
+
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal();
+    });
+  }
+});
+
   </script>
 
   <style>
@@ -248,5 +344,14 @@ sideBySideWrapper.appendChild(saturdayWrapper);
       animation: fade-in 0.5s ease-out;
     }
   </style>
+  
+<div id="welcomeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-lg p-6 relative max-w-sm w-full mx-4">
+    <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-black text-lg font-bold">&times;</button>
+    <h2 class="text-2xl font-bold mb-2 text-center">Thanks for using this!</h2>
+    <p class="text-gray-600 text-sm text-center mb-1">Made with 🖤 by <a href="https://dewanmukto.github.io/">Dewan Mukto</a> from Maloncho 201</p>
+    <p class="text-center text-black text-sm">🎉 Latest update: Co-curricular activity schedules now available, too.</p>
+  </div>
+</div>
 </body>
 </html>
