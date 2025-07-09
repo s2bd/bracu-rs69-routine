@@ -336,20 +336,34 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 function downloadRoutineImage() {
-  const target = document.querySelector(".max-w-5xl"); // More focused target than entire <body>
+  const mainContent = document.querySelector(".max-w-5xl");
+  const snapshot = document.getElementById("routineSnapshot");
 
-  html2canvas(target, {
-    scale: 2, // Higher scale = better resolution
+  // Clone current routine HTML
+  snapshot.innerHTML = mainContent.innerHTML;
+
+  // Temporarily make snapshot visible for rendering
+  snapshot.classList.remove("hidden");
+
+  // Capture the snapshot container
+  html2canvas(snapshot, {
+    scale: 2,
     useCORS: true,
-    windowWidth: target.scrollWidth,
-    windowHeight: target.scrollHeight
+    backgroundColor: "#ffffff",
+    windowWidth: 1200,
+    windowHeight: snapshot.scrollHeight,
   }).then(canvas => {
+    // Hide snapshot again
+    snapshot.classList.add("hidden");
+
+    // Save image
     const link = document.createElement("a");
     link.download = "RS69_Routine.png";
     link.href = canvas.toDataURL("image/png");
     link.click();
   });
 }
+
   </script>
 
   <style>
@@ -370,7 +384,10 @@ function downloadRoutineImage() {
     <p class="text-center text-black text-sm">🎉 Latest update: Co-curricular activity schedules now available, too.</p>
   </div>
 </div>
-  
+
+<!-- Snapshot container for consistent layout -->
+<div id="routineSnapshot" class="hidden w-[1200px] scale-[0.85] origin-top-left bg-white p-4"></div>
+
 <div id="savePrintWrapper" class="text-center mt-10 hidden">
   <button onclick="downloadRoutineImage()" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-all">
     🖨️ Save/Print Routine
