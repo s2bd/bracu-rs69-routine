@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RS69 Routine Builder</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen p-6">
   <div class="max-w-5xl mx-auto">
@@ -310,6 +311,8 @@ sideBySideWrapper.appendChild(fridayWrapper);
 sideBySideWrapper.appendChild(saturdayWrapper);
 
       container.appendChild(sideBySideWrapper);
+      document.getElementById("savePrintWrapper").classList.remove("hidden");
+
     }
 
     window.addEventListener("DOMContentLoaded", loadJSONs);
@@ -332,7 +335,21 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+function downloadRoutineImage() {
+  const target = document.querySelector(".max-w-5xl"); // More focused target than entire <body>
 
+  html2canvas(target, {
+    scale: 2, // Higher scale = better resolution
+    useCORS: true,
+    windowWidth: target.scrollWidth,
+    windowHeight: target.scrollHeight
+  }).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "RS69_Routine.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+}
   </script>
 
   <style>
@@ -353,5 +370,12 @@ window.addEventListener("DOMContentLoaded", () => {
     <p class="text-center text-black text-sm">🎉 Latest update: Co-curricular activity schedules now available, too.</p>
   </div>
 </div>
+  
+<div id="savePrintWrapper" class="text-center mt-10 hidden">
+  <button onclick="downloadRoutineImage()" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-all">
+    🖨️ Save/Print Routine
+  </button>
+</div>
+
 </body>
 </html>
